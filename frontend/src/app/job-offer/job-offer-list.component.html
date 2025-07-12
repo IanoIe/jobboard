@@ -1,0 +1,20 @@
+<div class="w-full h-[100px] bg-green-500 flex items-center justify-center">
+  <h1 class="text-[50px] text-white font-bold">List of Jobs</h1>
+</div>
+
+<div>
+  <ul *for="let job of jobOffers">
+    <li>
+      <h3>{{ job.title }}</h3>
+      <p><strong>Empresa:</strong> {{ job.nomEnterprise }}</p>
+      <p><strong>Tipo de Contrato:</strong> {{ job.typeContract }}</p>
+      <p><strong>Descrição:</strong> {{ job.description }}</p>
+    </li>
+  </ul>
+</div>
+
+<main class="w-full h-140 min-w-full md:min-w-0 bg-green-400 rounded-lg text-white m-0 p-0"></main>
+
+<div class="w-full h-[50px] bg-green-500 flex items-center justify-center mt-8">
+  <h1 class="text-[20px] text-white font-bold">&copy; 2025 AC Marvel - Tous droits réservés</h1>
+</div>
