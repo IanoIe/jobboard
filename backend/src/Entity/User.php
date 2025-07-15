@@ -11,9 +11,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use ApiPlatform\Metadata as Api;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Patch;
 use App\Controller\Api\MeAction;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -26,27 +23,20 @@ use ApiPlatform\OpenApi\Model;
     normalizationContext: ['groups' => ['read_user']],
     denormalizationContext: ['groups' => ['write_user']],
 )]
-#[Api\GetCollection(
-    security: "is_granted('ROLE_ADMIN')",
-    //normalizationContext: ['groups' => ['read_user']]
-)]
 #[Api\Get(
     uriTemplate: '/me',
     security: 'is_granted("ROLE_USER")',
     read: false,
     controller: MeAction::class,
-    normalizationContext: ['groups' => ['read_user']],
-    openapi: new Model\Operation(summary: 'Show current user profile')
+    openapi: new Model\Operation(
+        summary: 'Show current user profile'
+    )
 )]
-
-#[Post(
-    security: "is_granted('ROLE_ADMIN')"
+#[Api\Patch(
+    security: 'is_granted("ROLE_USER") and object.id == user.id',
 )]
-#[Patch(
-    security: "is_granted('ROLE_ADMIN')"
-)]
-#[Delete(
-    security: "is_granted('ROLE_ADMIN')"
+#[Api\Delete(
+    security: 'is_granted("ROLE_USER") and object.id == user.id',
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -59,25 +49,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read_user'])]
+    #[Groups(['read_user', 'write_user'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read_user'])]
+    #[Groups(['read_user', 'write_user'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read_user'])]
+    #[Groups(['read_user', 'write_user'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
     #[ORM\Column]
-    #[Groups(['read_user'])]
+    #[Groups(['read_user', 'write_user'])]
     private array $roles = [];
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read_user', 'write_user'])]
     private ?string $cvFilename = null;
 
     #[ORM\Column]
