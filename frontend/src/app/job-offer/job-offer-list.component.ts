@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -29,8 +29,14 @@ export class JobOfferListComponent implements OnInit {
   }
 
   fetchData(): void {
-    this.httpClient.get<JobOffer[]>('https://127.0.0.1:8000/api/job_offers').subscribe(
-      (data: JobOffer[]) => {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders();
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    this.httpClient.get<JobOffer[]>('https://api.jobboard.wip/api/job_offers', { headers }).subscribe(
+      (data) => {
         this.jobOffers = data;
         this.loading = false;
       },
