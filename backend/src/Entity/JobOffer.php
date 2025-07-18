@@ -52,6 +52,7 @@ class JobOffer
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(['read_jobOffer'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'jobOffers')]

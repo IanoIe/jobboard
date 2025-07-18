@@ -5,6 +5,7 @@ import { ApplicationJobListComponent } from './application-job/application-job-l
 import { Home } from './home/home';
 
 
+
 export const routes: Routes = [
   { path: '', component:Home},
   { path: 'users', component: UserListComponent },

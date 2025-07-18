@@ -29,6 +29,26 @@ class JobOfferFixtures extends Fixture
         $manager->persist($jobOffer);
 
 
+
+        $jobOffer = new JobOffer();
+        $jobOffer->setNomEnterprise('Vinci Immobilier');
+        $jobOffer->setTitle("Analyste Risques H/F");
+        $jobOffer->setTypeContract('CDI / CDD / Interim');
+        $jobOffer->setDescription("De réaliser l'évaluation renforcée des tiers et des transactions;
+                                   - De rédiger, si besoin, des procédures, guides ou supports à destination des équipes opérationnelles et supports;");
+        $jobOffer->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+        $manager->persist($jobOffer);
+
+
+        $jobOffer = new JobOffer();
+        $jobOffer->setNomEnterprise('BPCE SA');
+        $jobOffer->setTitle("Technology Risk Management Officer H/F");
+        $jobOffer->setTypeContract('CDI / CDD / Interim');
+        $jobOffer->setDescription("Superviser les contrôles permanents Groupe de niveau 1 (CPN1);
+                                   - Un modèle managérial favorisant la mise en responsabilité et la prise d'initiatives;");
+        $jobOffer->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+        $manager->persist($jobOffer);
+
         $manager->flush();
     }
 }

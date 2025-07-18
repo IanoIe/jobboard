@@ -1,44 +1,13 @@
 <div class="m-0 p-0">
-  <nav class="bg-red-100 m-0 p-0">
-    <ul class="flex p-8 text-3xl space-x-35">
-      <li><a>Home</a></li>
-      <li><a routerLink="users">List Of Users</a></li>
-      <li><a routerLink="job-offers">List of Jobs</a></li>
-      <li><a routerLink="applications">Application Job</a></li>
+  <nav class="bg-green-500 m-0 p-0">
+    <ul class="flex p-8 text-3xl space-x-8 w-full">
+      <li class="mr-auto"><a class="text-white">Home</a></li>
+      <div class="flex-4/12 flex justify-center space-x-8">
+        <li><a class="text-white" routerLink="users">List Of Users</a></li>
+        <li><a class="text-white" routerLink="job-offers">List of Jobs</a></li>
+        <li><a class="text-white" routerLink="applications">Application Job</a></li>
+        <li><a class="text-white" routerLink="login">login</a></li>
+      </div>
     </ul>
   </nav>
 </div>
-
-<main class="w-full h-140 min-w-full md:min-w-0 bg-green-400 rounded-lg text-white m-0 p-0">
-
-
-<div *ngIf="data && data.length">
-  <ul>
-    <li *ngFor="let offer of data">
-      <div class="job-card">
-        <h3>{{ offer.title }}</h3>
-        <p><strong>Entreprise:</strong> {{ offer.nomEnterprise }}</p>
-        <p><strong>Contract:</strong> {{ offer.typeContract }}</p>
-        <p><strong>Description:</strong> {{ offer.description }}</p>
-
-        <button style="display: block; margin-top: 10px;" (click)="applyForJob(offer)">Candidatar-se</button>
-
-      </div>
-    </li>
-  </ul>
-</div>
-
-
-
-<div *ngIf="!data || data.length === 0">
-  <p>No job offers available at the moment.</p>
-</div>
-
-
-
-</main>
-
-<div class="w-full h-[50px] bg-red-100 m-0 flex items-center justify-center">
-  <h1 class="text-[30px] text-black font-bold">&copy; 2025 AC Marvel - Tous droits réservés</h1>
-</div>
-

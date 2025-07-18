@@ -3,7 +3,12 @@ api.jobboard.wip {
 	reverse_proxy localhost:8000
 }
 
-http://api.jobboard.wip {
+jobboard.wip {
+	tls internal
+	reverse_proxy localhost:4200
+}
+
+/* http://api.jobboard.wip {
 	redir https://api.jobboard.wip{uri}
 }
 
@@ -14,4 +19,4 @@ app.jobboard.wip {
 
 http://app.jobboard.wip {
 	redir https://app.jobboard.wip{uri}
-}
+} */

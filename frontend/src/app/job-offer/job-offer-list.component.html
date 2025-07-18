@@ -1,20 +1,55 @@
-<div class="w-full h-[100px] bg-green-500 flex items-center justify-center">
-  <h1 class="text-[50px] text-white font-bold">List of Jobs</h1>
-</div>
+<div class="flex justify-center items-start min-h-screen mt-5">
+  <div *ngIf="!loading && jobOffers.length > 0" class="w-3/4">
+    <table class="table">
+      <thead class="table-light">
+        <tr>
+          <th class="font-weight-bold border">Title</th>
+          <th class="font-weight-bold border">Enterprise</th>
+          <th class="font-weight-bold border">Type of Contract</th>
+          <th class="font-weight-bold border">Description</th>
+          <th class="font-weight-bold border">Date</th>
+          <th class="font-weight-bold border">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of jobOffers">
+          <td class="border text-center">{{ job.title }}</td>
+          <td class="border text-center">{{ job.nomEnterprise }}</td>
+          <td class="border text-center">{{ job.typeContract }}</td>
+          <td class="border description-cell">{{ job.description }}</td>
+          <td class="border text-center">{{ job.createdAt }}</td>
+          <td class="border text-center">
+            <button (click)="openApplicationForm(job)" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"> Apply </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<div>
-  <ul *for="let job of jobOffers">
-    <li>
-      <h3>{{ job.title }}</h3>
-      <p><strong>Empresa:</strong> {{ job.nomEnterprise }}</p>
-      <p><strong>Tipo de Contrato:</strong> {{ job.typeContract }}</p>
-      <p><strong>Descrição:</strong> {{ job.description }}</p>
-    </li>
-  </ul>
-</div>
+  <div *ngIf="!loading && jobOffers.length === 0" class="text-center">No job offers found.</div>
 
-<main class="w-full h-140 min-w-full md:min-w-0 bg-green-400 rounded-lg text-white m-0 p-0"></main>
-
-<div class="w-full h-[50px] bg-green-500 flex items-center justify-center mt-8">
-  <h1 class="text-[20px] text-white font-bold">&copy; 2025 AC Marvel - Tous droits réservés</h1>
+  <!-- Formulário de candidatura -->
+  <div *ngIf="selectedJob" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 rounded-md shadow-lg w-96">
+      <h2 class="text-xl font-semibold mb-4">Apply for {{ selectedJob.title }}</h2>
+      <form (submit)="submitApplication()">
+        <div class="mb-4">
+          <label for="fullName" class="block text-sm font-medium">Full Name</label>
+          <input id="fullName" [(ngModel)]="application.fullName" name="fullName" type="text" class="border p-2 w-full" required />
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium">Email</label>
+          <input id="email" [(ngModel)]="application.email" name="email" type="email" class="border p-2 w-full" required />
+        </div>
+        <div class="mb-4">
+          <label for="cv" class="block text-sm font-medium">Upload CV</label>
+          <input id="cv" [(ngModel)]="application.cv" name="cv" type="file" class="border p-2 w-full" required />
+        </div>
+        <div class="flex justify-between">
+          <button type="button" (click)="closeApplicationForm()" class="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500">Cancel</button>
+          <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

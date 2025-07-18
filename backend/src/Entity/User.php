@@ -20,8 +20,8 @@ use ApiPlatform\OpenApi\Model;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[Api\ApiResource(
-    normalizationContext: ['groups' => ['read_user']],
-    denormalizationContext: ['groups' => ['write_user']],
+    normalizationContext: ['groups' => ['read_user', 'read_views']],
+    denormalizationContext: ['groups' => ['write_user', 'write_views']],
 )]
 #[Api\Get(
     uriTemplate: '/me',
@@ -154,11 +154,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getRoles(): array
-{
-    $roles = $this->roles;
-    $roles[] = 'ROLE_USER';
-    return array_unique($roles);
-}
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
 
     public function setRoles(array $roles): static
     {
