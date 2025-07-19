@@ -27,7 +27,6 @@ class UserFixtures extends Fixture
         $hashedPassword = $this->passwordHasher->hashPassword($user, '123');
         $user->setPassword($hashedPassword);
         $user->setRoles(['ROLE_ADMIN']);
-        $user->setCvFilename('');
         $user->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         $manager->persist($user);
 
@@ -38,7 +37,6 @@ class UserFixtures extends Fixture
         $hashedPassword = $this->passwordHasher->hashPassword($user, '12345');
         $user->setPassword($hashedPassword);
         $user->setRoles(['ROLE_USER']);
-        $user->setCvFilename('');
         $user->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         $manager->persist($user);
 
@@ -49,7 +47,6 @@ class UserFixtures extends Fixture
         $hashedPassword = $this->passwordHasher->hashPassword($user, '1234');
         $user->setPassword($hashedPassword);
         $user->setRoles(['ROLE_VIEWS']);
-        $user->setCvFilename('');
         $user->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         $manager->persist($user);
 

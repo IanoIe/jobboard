@@ -39,7 +39,6 @@ export class JobOfferListComponent implements OnInit {
   fetchData(): void {
     this.httpClient.get<JobOffer[]>('https://127.0.0.1:8000/api/job_offers').subscribe(
       (response) => {
-        console.log('Complete answer: ', response);
         this.jobOffers = response.map(job => {
           job.createdAt = this.datePipe.transform(job.createdAt, 'dd/MM/yyyy')!;
           return job;
@@ -47,7 +46,7 @@ export class JobOfferListComponent implements OnInit {
         this.loading = false;
       },
       (error) => {
-        console.error('Error searching for job vacancies: ', error);
+        console.error('Error fetching job offers: ', error);
         this.loading = false;
       }
     );
@@ -66,17 +65,22 @@ export class JobOfferListComponent implements OnInit {
     };
   }
 
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.application.cv = input.files[0];
+    }
+  }
+
   submitApplication() {
-    if (this.application.fullName && this.application.email && this.application.cv) {
+    if (this.application.fullName && this.application.email && this.application.cv && this.selectedJob) {
       const formData = new FormData();
       formData.append('fullName', this.application.fullName);
       formData.append('email', this.application.email);
-      formData.append('cv', this.application.cv!);
-      formData.append('jobId', this.selectedJob!.id.toString());
+      formData.append('cv', this.application.cv);
+      formData.append('jobId', this.selectedJob.id.toString());
 
-      console.log('Application ready to send: ');
-      console.log('Job:', this.selectedJob);
-      console.log('FormData:', this.application);
+      console.log('Application ready to send: ', this.application);
 
       this.closeApplicationForm();
     } else {

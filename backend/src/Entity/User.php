@@ -67,9 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['read_user', 'write_user'])]
     private array $roles = [];
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['read_user', 'write_user'])]
-    private ?string $cvFilename = null;
+
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -163,17 +161,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-        return $this;
-    }
-
-    public function getCvFilename(): ?string
-    {
-        return $this->cvFilename;
-    }
-
-    public function setCvFilename(?string $cvFilename): static
-    {
-        $this->cvFilename = $cvFilename;
         return $this;
     }
 

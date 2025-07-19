@@ -21,7 +21,17 @@ class ApplicationJobFixtures extends Fixture implements DependentFixtureInterfac
             $applicationJob->setUser($user);
             $applicationJob->setJobOffer($jobOffer);
             $applicationJob->setState('Accept');
-            $applicationJob->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+            $applicationJob->setEmail('jean@gmail.com');
+            $cvPath = 'C:\Users\AC Marvel\Downloads\Fille_CV.pdf';
+            if (file_exists($cvPath)) {
+                $cvContent = file_get_contents($cvPath);
+                $applicationJob->setCvData($cvContent);
+            } else {
+                throw new \Exception("Don´t CV: $cvPath");
+            }
+
+            $createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
+            $applicationJob->setCreatedAt($createdAt);
             $manager->persist($applicationJob);
         } else {
             throw new \Exception('User or Job Offer not found!');
@@ -29,12 +39,23 @@ class ApplicationJobFixtures extends Fixture implements DependentFixtureInterfac
 
         $user = $manager->getRepository(User::class)->findOneBy(['email' => 'marlon@hotmail.com']);
         $jobOffer = $manager->getRepository(JobOffer::class)->findOneBy(['title' => "Agent d'Accueil Pension de Famille H/F"]);
+
         if ($user && $jobOffer) {
             $applicationJob = new ApplicationJob();
             $applicationJob->setUser($user);
             $applicationJob->setJobOffer($jobOffer);
             $applicationJob->setState('Refus');
-            $applicationJob->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+            $applicationJob->setEmail('marlon@hotmail.com');
+            $cvPath = 'C:\Users\AC Marvel\Downloads\Fille_CV.pdf';
+            if (file_exists($cvPath)) {
+                $cvContent = file_get_contents($cvPath);
+                $applicationJob->setCvData($cvContent);
+            } else {
+                throw new \Exception("Don´t CV: $cvPath");
+            }
+
+            $createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
+            $applicationJob->setCreatedAt($createdAt);
             $manager->persist($applicationJob);
         } else {
             throw new \Exception('User or Job Offer not found!');
@@ -47,6 +68,7 @@ class ApplicationJobFixtures extends Fixture implements DependentFixtureInterfac
     {
         return [
             UserFixtures::class,
+            JobOfferFixtures::class,
         ];
     }
 }
