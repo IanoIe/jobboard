@@ -32,8 +32,20 @@ export class JobOfferListComponent implements OnInit {
     cv: null as File | null
   };
 
+  messages = [
+    'You can apply for the latest job offers on our website!',
+    'Check out new job offers every day!',
+    'Apply now and get your dream job!',
+    "Don't miss our latest job offers!"
+  ];
+  currentMessageIndex = 0;
+
   ngOnInit(): void {
     this.fetchData();
+
+    setInterval(() => {
+      this.currentMessageIndex = (this.currentMessageIndex + 1) % this.messages.length;
+    }, 3000);
   }
 
   fetchData(): void {
@@ -80,9 +92,17 @@ export class JobOfferListComponent implements OnInit {
       formData.append('cv', this.application.cv);
       formData.append('jobId', this.selectedJob.id.toString());
 
-      console.log('Application ready to send: ', this.application);
-
-      this.closeApplicationForm();
+      this.httpClient.post('https://127.0.0.1:8000/api/applications/upload', formData).subscribe({
+        next: (response) => {
+          console.log('Application submitted successfully!', response);
+          alert('Application sent!');
+          this.closeApplicationForm();
+        },
+        error: (error) => {
+          console.error('Error submitting application:', error);
+          alert('Error submitting application. See console for details.');
+        }
+      });
     } else {
       alert('Please fill in all fields.');
     }

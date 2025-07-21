@@ -38,6 +38,7 @@ final class UserCrudController extends AbstractCrudController
             ->setChoices([
                 'User' => 'ROLE_USER',
                 'Admin' => 'ROLE_ADMIN',
+                'Recruiter' => 'ROLE_RECRUITER',
             ]);
         yield Field::new('cvFilename')->setLabel('CV');
         yield Field::new('createdAt')->setLabel('Date');

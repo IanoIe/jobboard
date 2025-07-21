@@ -15,12 +15,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ApplicationJobRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read_applicationJob']],
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(
+            security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_RECRUITER')"
+        ),
+        new Patch(
+            security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_RECRUITER')"
+        ),
+        new Delete(
+            security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_RECRUITER')"
+        ),
+    ]
 )]
-#[GetCollection]
-#[Get]
-#[Post]
-#[Patch]
-#[Delete]
+
 class ApplicationJob
 {
     #[ORM\Id]
