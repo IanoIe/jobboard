@@ -1,17 +1,17 @@
 
-<br><h1 class="text-center text-4xl text-blue-700">{{ messages[currentMessageIndex] }}</h1><br>
+<h1 class="text-center text-4xl text-blue-700">{{ messages[currentMessageIndex] }}</h1>
 
-<div class="flex justify-center items-start min-h-screen mt-5">
-  <div *ngIf="!loading && jobOffers.length > 0" class="w-3/4">
-    <table class="table">
+<div class="flex justify-center items-start min-h-screen mt-5 relative">
+  <div *ngIf="!loading && jobOffers.length > 0" class="w-1/2 mx-auto">
+    <table class="table table-bordered" style="width: 80%; margin: 0 auto 40px auto; table-layout: fixed;">
       <thead class="table-light">
         <tr>
-          <th class="font-weight-bold border">Title</th>
-          <th class="font-weight-bold border">Enterprise</th>
-          <th class="font-weight-bold border">Type of Contract</th>
-          <th class="font-weight-bold border">Description</th>
-          <th class="font-weight-bold border">Date</th>
-          <th class="font-weight-bold border">Action</th>
+          <th class="text-center" style="width: 15%;">Title</th>
+          <th class="text-center" style="width: 10%;">Enterprise</th>
+          <th class="text-center" style="width: 10%;">Type of Contract</th>
+          <th class="text-center" style="width: 50%;">Description</th>
+          <th class="text-center" style="width: 10%;">Date</th>
+          <th class="text-center" style="width: 10%;">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -22,40 +22,45 @@
           <td class="border description-cell">{{ job.description }}</td>
           <td class="border text-center">{{ job.createdAt }}</td>
           <td class="border text-center">
-            <button (click)="openApplicationForm(job)" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"> Apply </button>
+            <button type="button" (click)="openApplicationForm(job)" class="btn btn-success bg-teal-500 text-white py-2 px-4 rounded hover:bg-blue-500 transition duration-200"> Apply </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+</div>
 
-  <div *ngIf="!loading && jobOffers.length === 0" class="text-center">No job offers found.</div>
-
-  <!-- Registration form -->
-  <div *ngIf="selectedJob" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-    <div class="bg-white p-6 rounded-md shadow-lg w-96">
-      <h2 class="text-xl font-semibold mb-4">Apply for {{ selectedJob.title }}</h2>
-      <form (submit)="submitApplication()">
-        <div class="mb-4">
-          <label for="fullName" class="block text-sm font-medium">Full Name</label>
-          <input id="fullName" [(ngModel)]="application.fullName" name="fullName" type="text" class="border p-2 w-full" required />
-        </div>
-        <div class="mb-4">
-          <label for="email" class="block text-sm font-medium">Email</label>
-          <input id="email" [(ngModel)]="application.email" name="email" type="email" class="border p-2 w-full" required />
-        </div>
-        <div class="mb-4">
-          <label for="cv" class="block text-sm font-medium">Upload CV</label>
-
-          <input id="cv" name="cv" type="file" (change)="onFileSelected($event)" class="border p-2 w-full" required />
+<div *ngIf="!loading && jobOffers.length === 0" class="text-center">No job offers found.</div>
 
 
-        </div>
-        <div class="flex justify-between">
-          <button type="button" (click)="closeApplicationForm()" class="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500">Cancel</button>
-          <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Submit Application</button>
-        </div>
-      </form>
+<!-- Bootstrap Modal -->
+<div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" *ngIf="selectedJob">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Apply for {{ selectedJob.title }}</h5>
+        <button type="button" class="btn-close" (click)="closeApplicationForm()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="submitApplication()">
+          <div class="mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input id="fullName" [(ngModel)]="application.fullName" name="fullName" type="text" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" [(ngModel)]="application.email" name="email" type="email" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="cv" class="form-label">Upload CV</label>
+            <input id="cv" name="cv" type="file" (change)="onFileSelected($event)" class="form-control" required />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeApplicationForm()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit Application</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

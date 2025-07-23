@@ -1,0 +1,23 @@
+<div class="d-flex justify-content-center align-items-center h-100">
+  <div class="container" style="max-width: 400px;">
+    <h2 class="text-center mb-4">Login</h2>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" name="email" class="form-control" [(ngModel)]="email" required #emailInput="ngModel"/>
+        <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger"> Email is required. </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control" [(ngModel)]="password" required #passwordInput="ngModel"/>
+        <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger"> Password is required. </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid"> Login </button>
+    </form>
+
+    <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+  </div>
+</div>
