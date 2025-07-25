@@ -26,23 +26,23 @@ export class LoginComponent {
   async handleLoginSubmit(): Promise<void> {
     this.error = '';
 
-  try {
-    const res = await this.http.post<AuthResponse>(
-      'http://api.jobboard.wip/auth',
-      { email: 'david@hotmail.com', password: '1234' },
-      { withCredentials: true }
-    ).toPromise();
+    try {
+      const res = await this.http.post<AuthResponse>(
+        'http://api.jobboard.wip/auth',
+        { email: this.email, password: this.password },
+        { withCredentials: true }
+      ).toPromise();
 
-    if (res?.token) {
-      localStorage.setItem('token', res.token);
-      this.router.navigate(['/recruiter']);
-    } else {
-      this.error = 'Login failed: no token returned.';
+      if (res?.token) {
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/recruiter']);
+      } else {
+        this.error = 'Login failed: no token returned.';
+      }
+    } catch (err: any) {
+      console.error(err);
+      this.error = 'Invalid credentials or server error.';
     }
-  } catch (err: any) {
-    console.error(err);
-    this.error = 'Invalid credentials or server error.';
   }
-}
 }
 
