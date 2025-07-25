@@ -1,17 +1,18 @@
 <div class="d-flex justify-content-center align-items-center h-100">
-  <div class="container" style="max-width: 400px;">
+  <div class="container rounded p-4 mt-4" style="max-width: 400px; background-color: #d4edda;">
+
     <h2 class="text-center mb-4">Login</h2>
 
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+    <form (ngSubmit)="handleLoginSubmit()" #loginForm="ngForm" novalidate>
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" id="email" name="email" class="form-control" [(ngModel)]="email" required #emailInput="ngModel"/>
+        <input type="email" id="email" name="email" class="form-control" [(ngModel)]="email" placeholder="Your email" required #emailInput="ngModel"/>
         <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger"> Email is required. </div>
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" id="password" name="password" class="form-control" [(ngModel)]="password" required #passwordInput="ngModel"/>
+        <input type="password" id="password" name="password" class="form-control" [(ngModel)]="password" placeholder="Enter password" required #passwordInput="ngModel"/>
         <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger"> Password is required. </div>
       </div>
 

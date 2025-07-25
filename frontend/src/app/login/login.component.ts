@@ -3,7 +3,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
+
+interface AuthResponse {
+  token?: string;
+}
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -18,19 +23,26 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  onSubmit() {
+  async handleLoginSubmit(): Promise<void> {
     this.error = '';
-    this.http.post<any>('http://localhost:8000/api/login', {
-      email: this.email,
-      password: this.password,
-    }).subscribe({
-      next: (res) => {
-        localStorage.setItem('token', res.token);
-        this.router.navigate(['/recruiter']);
-      },
-      error: () => {
-        this.error = 'Credenciais inválidas';
-      }
-    });
+
+  try {
+    const res = await this.http.post<AuthResponse>(
+      'http://api.jobboard.wip/auth',
+      { email: 'david@hotmail.com', password: '1234' },
+      { withCredentials: true }
+    ).toPromise();
+
+    if (res?.token) {
+      localStorage.setItem('token', res.token);
+      this.router.navigate(['/recruiter']);
+    } else {
+      this.error = 'Login failed: no token returned.';
+    }
+  } catch (err: any) {
+    console.error(err);
+    this.error = 'Invalid credentials or server error.';
   }
 }
+}
+

@@ -49,7 +49,7 @@ export class JobOfferListComponent implements OnInit {
   }
 
   fetchData(): void {
-    this.httpClient.get<JobOffer[]>('https://127.0.0.1:8000/api/job_offers').subscribe(
+    this.httpClient.get<JobOffer[]>('https://api.jobboard.wip/api/job_offers').subscribe(
       (response) => {
         this.jobOffers = response.map(job => {
           job.createdAt = this.datePipe.transform(job.createdAt, 'dd/MM/yyyy')!;
