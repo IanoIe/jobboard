@@ -28,7 +28,7 @@ export class LoginComponent {
 
     try {
       const res = await this.http.post<AuthResponse>(
-        'http://api.jobboard.wip/auth',
+        'http://127.0.0.1:8000/auth',
         { email: this.email, password: this.password },
         { withCredentials: true }
       ).toPromise();
