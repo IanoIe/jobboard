@@ -1,1 +1,23 @@
-<p>recruiter works!</p>
+<h2>My Job Offers</h2>
+
+<div *ngIf="errorMessage" class="error-message">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<div *ngIf="!errorMessage">
+  <div *ngIf="jobOffers.length > 0; else noOffers">
+    <ul>
+      <li *ngFor="let offer of jobOffers">
+        <h3>{{ offer.title }}</h3>
+        <p><strong>Company:</strong> {{ offer.nomEnterprise }}</p>
+        <p><strong>Contract Type:</strong> {{ offer.typeContract }}</p>
+        <p><strong>Description:</strong> {{ offer.description }}</p>
+        <p><strong>Created At:</strong> {{ offer.createdAt }}</p>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #noOffers>
+    <p>No job offers available for you.</p>
+  </ng-template>
+</div>

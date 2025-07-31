@@ -13,6 +13,7 @@ final class UserCrudController extends AbstractCrudController
 {
     private UserPasswordHasherInterface $passwordHasher;
 
+
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
@@ -36,7 +37,6 @@ final class UserCrudController extends AbstractCrudController
             ->allowMultipleChoices()
             ->renderExpanded()
             ->setChoices([
-                'User' => 'ROLE_USER',
                 'Admin' => 'ROLE_ADMIN',
                 'Recruiter' => 'ROLE_RECRUITER',
             ]);
@@ -49,9 +49,6 @@ final class UserCrudController extends AbstractCrudController
         /** @var User $entityInstance */
         $this->encodePassword($entityInstance);
 
-        if (empty($entityInstance->getRoles())) {
-            $entityInstance->setRoles(['ROLE_USER']);
-        }
         parent::persistEntity($entityManager, $entityInstance);
     }
 
@@ -59,9 +56,7 @@ final class UserCrudController extends AbstractCrudController
     {
         /** @var User $entityInstance */
         $this->encodePassword($entityInstance);
-        if (empty($entityInstance->getRoles())) {
-            $entityInstance->setRoles(['ROLE_USER']);
-        }
+
         parent::updateEntity($entityManager, $entityInstance);
     }
 

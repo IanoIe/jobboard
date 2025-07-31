@@ -28,7 +28,7 @@ export class LoginComponent {
 
     try {
       const res = await this.http.post<AuthResponse>(
-        'http://127.0.0.1:8000/auth',
+        'https://api.jobboard.wip/auth',
         { email: this.email, password: this.password },
         { withCredentials: true }
       ).toPromise();
@@ -43,6 +43,10 @@ export class LoginComponent {
       console.error(err);
       this.error = 'Invalid credentials or server error.';
     }
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
   }
 }
 

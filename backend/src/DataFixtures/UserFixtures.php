@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordHasherInterface;
 class UserFixtures extends Fixture
 {
     private $passwordHasher;
-    
+
     public function __construct(HasherUserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
@@ -35,7 +35,7 @@ class UserFixtures extends Fixture
         $user->setEmail('marlon@hotmail.com');
         $hashedPassword = $this->passwordHasher->hashPassword($user, '12345');
         $user->setPassword($hashedPassword);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles(['ROLE_RECRUITER']);
         $user->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         $manager->persist($user);
 

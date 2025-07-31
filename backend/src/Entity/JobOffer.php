@@ -20,7 +20,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     normalizationContext: ['groups' => ['read_jobOffer']],
     operations: [
-        new Get(),
+        new Get(
+            security: "is_granted('ROLE_ADMIN') or object.getUser() == user"
+        ),
         new GetCollection(),
         new Post(
             security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_RECRUITER')"

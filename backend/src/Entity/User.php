@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity;
 
 use App\Repository\UserRepository;
@@ -16,16 +15,15 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 use ApiPlatform\OpenApi\Model;
 
-
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[Api\ApiResource(
-    normalizationContext: ['groups' => ['read_user', 'read_views']],
-    denormalizationContext: ['groups' => ['write_user', 'write_views']],
+    normalizationContext: ['groups' => ['read_recruiter', 'read_views']],
+    denormalizationContext: ['groups' => ['write_recruiter', 'write_views']],
 )]
 #[Api\Get(
     uriTemplate: '/me',
-    security: 'is_granted("ROLE_USER")',
+    security: 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_RECRUITER") and user.id == user.id)', 
     read: false,
     controller: MeAction::class,
     openapi: new Model\Operation(
@@ -33,10 +31,10 @@ use ApiPlatform\OpenApi\Model;
     )
 )]
 #[Api\Patch(
-    security: 'is_granted("ROLE_USER") and object.id == user.id',
+    security: 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_RECRUITER") and object.id == user.id)',
 )]
 #[Api\Delete(
-    security: 'is_granted("ROLE_USER") and object.id == user.id',
+    security: 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_RECRUITER") and object.id == user.id)',
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -45,44 +43,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read_user'])]
+    #[Groups(['read_recruiter'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read_user', 'write_user'])]
+    #[Groups(['read_recruiter', 'write_recruiter'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read_user', 'write_user'])]
+    #[Groups(['read_recruiter', 'write_recruiter'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read_user', 'write_user'])]
+    #[Groups(['read_recruiter', 'write_recruiter'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
     #[ORM\Column]
-    #[Groups(['read_user', 'write_user'])]
+    #[Groups(['read_recruiter', 'write_recruiter'])]
     private array $roles = [];
 
-
+    #[ORM\Column(type: 'string', nullable: true)]
+    #[Groups(['read_recruiter', 'write_recruiter'])]
+    private ?string $cvFilename = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    /**
-     * @var Collection<int, JobOffer>
-     */
     #[ORM\OneToMany(targetEntity: JobOffer::class, mappedBy: 'user')]
     private Collection $jobOffers;
 
-    /**
-     * @var Collection<int, ApplicationJob>
-     */
     #[ORM\OneToMany(targetEntity: ApplicationJob::class, mappedBy: 'user')]
     private Collection $applicationJobs;
+
+    public function getCvFilename(): ?string
+    {
+        return $this->cvFilename;
+    }
+
+    public function setCvFilename(?string $cvFilename): self
+    {
+        $this->cvFilename = $cvFilename;
+        return $this;
+    }
 
     public function getPlainPassword(): ?string
     {
@@ -154,7 +159,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
+
+        if (empty($roles)) {
+            $roles[] = 'ROLE_RECRUITER';
+        }
+
         return array_unique($roles);
     }
 
