@@ -5,14 +5,18 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface as HasherUserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class UserFixtures extends Fixture
 {
+    public const TEST_USER = 'TEST_USER';
+    public const TEST_RECRUITER_1 = 'TEST_RECRUITER_1';
+    public const TEST_RECRUITER_2 = 'TEST_RECRUITER_2';
+    public const TEST_RECRUITER_3 = 'TEST_RECRUITER_3';
     private $passwordHasher;
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
 
-    public function __construct(HasherUserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
     }
@@ -28,6 +32,7 @@ class UserFixtures extends Fixture
         $user->setRoles(['ROLE_ADMIN']);
         $user->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         $manager->persist($user);
+        $this->addReference(self::TEST_USER, $user);
 
         $user = new User();
         $user->setLastname('Marlon');
@@ -38,6 +43,7 @@ class UserFixtures extends Fixture
         $user->setRoles(['ROLE_RECRUITER']);
         $user->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         $manager->persist($user);
+        $this->addReference(self::TEST_RECRUITER_1, $user);
 
         $user = new User();
         $user->setLastname('David');
@@ -48,6 +54,7 @@ class UserFixtures extends Fixture
         $user->setRoles(['ROLE_RECRUITER']);
         $user->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         $manager->persist($user);
+        $this->addReference(self::TEST_RECRUITER_2, $user);
 
         $manager->flush();
     }

@@ -15,7 +15,7 @@ export interface JobOffer {
   providedIn: 'root',
 })
 export class JobOfferService {
-  private apiUrl = 'http://127.0.0.1:8000/api/job-offers/mine';
+  private apiUrl = 'https://api.jobboard.wip/api/job-offers/mine';
 
   constructor(private http: HttpClient) {}
 
