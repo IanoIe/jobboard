@@ -23,13 +23,14 @@ use ApiPlatform\OpenApi\Model;
 )]
 #[Api\Get(
     uriTemplate: '/me',
-    security: 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_RECRUITER") and user.id == user.id)', 
+    security: 'is_granted("ROLE_ADMIN") or is_granted("ROLE_RECRUITER")',
     read: false,
     controller: MeAction::class,
     openapi: new Model\Operation(
         summary: 'Show current user profile'
     )
 )]
+
 #[Api\Patch(
     security: 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_RECRUITER") and object.id == user.id)',
 )]

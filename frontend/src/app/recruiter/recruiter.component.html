@@ -1,23 +1,61 @@
-<h2>My Job Offers</h2>
+<div class="container mt-4">
+  <div class="row align-items-end mb-4">
+    <div class="col-12 col-lg-8 ms-auto text-center rounded bg-secondary bg-gradient">
+      <h2 class="mb-0">My Job Offers</h2>
+    </div>
 
-<div *ngIf="errorMessage" class="error-message">
-  <p>{{ errorMessage }}</p>
-</div>
-
-<div *ngIf="!errorMessage">
-  <div *ngIf="jobOffers.length > 0; else noOffers">
-    <ul>
-      <li *ngFor="let offer of jobOffers">
-        <h3>{{ offer.title }}</h3>
-        <p><strong>Company:</strong> {{ offer.nomEnterprise }}</p>
-        <p><strong>Contract Type:</strong> {{ offer.typeContract }}</p>
-        <p><strong>Description:</strong> {{ offer.description }}</p>
-        <p><strong>Created At:</strong> {{ offer.createdAt }}</p>
-      </li>
-    </ul>
+    <!-- Card User Information -->
+    <div *ngIf="user" class="col-12 col-lg-3 mt-3 mt-lg-0 ms-3">
+      <div class="card text-dark bg-secondary-subtle h-100 text-center">
+        <div class="card-header fw-bold fs-4">Recruiter Info</div>
+        <div class="card-body">
+          <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}</h5>
+          <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+          <p class="card-text" *ngIf="jobOffers.length > 0">
+            <strong>Company:</strong> {{ jobOffers[0]?.nomEnterprise }}
+          </p>
+          <p class="card-text" *ngIf="jobOffers.length === 0">
+            No company information available.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <ng-template #noOffers>
-    <p>No job offers available for you.</p>
-  </ng-template>
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="!errorMessage">
+        <div *ngIf="jobOffers.length > 0; else noOffers">
+          <table class="table table-bordered table-dark">
+            <thead class="text-center">
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Company</th>
+                <th scope="col">Contract</th>
+                <th scope="col">Description</th>
+                <th scope="col">Posted On</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let offer of jobOffers">
+                <td>{{ offer.title }}</td>
+                <td>{{ offer.nomEnterprise }}</td>
+                <td>{{ offer.typeContract }}</td>
+                <td>{{ offer.description }}</td>
+                <td>{{ offer.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <ng-template #noOffers>
+          <p class="text-center">No job offers available for you.</p>
+        </ng-template>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        <p>{{ errorMessage }}</p>
+      </div>
+    </div>
+  </div>
 </div>
