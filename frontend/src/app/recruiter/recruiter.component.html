@@ -28,7 +28,7 @@
         <div *ngIf="jobOffers.length > 0; else noOffers">
 
           <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary mt-1" onclick="addNewJobOffer()">Add New Job Offers</button>
+            <button type="button" class="btn btn-primary mt-1" (click)="addOffer()">Add New Job Offer</button>
           </div>
 
           <table class="table table-bordered table-dark mt-1">
