@@ -26,7 +26,12 @@
     <div class="col-12">
       <div *ngIf="!errorMessage">
         <div *ngIf="jobOffers.length > 0; else noOffers">
-          <table class="table table-bordered table-dark">
+
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary mt-1" onclick="addNewJobOffer()">Add New Job Offers</button>
+          </div>
+
+          <table class="table table-bordered table-dark mt-1">
             <thead class="text-center">
               <tr>
                 <th scope="col">Title</th>
@@ -34,6 +39,7 @@
                 <th scope="col">Contract</th>
                 <th scope="col">Description</th>
                 <th scope="col">Posted On</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -43,6 +49,10 @@
                 <td>{{ offer.typeContract }}</td>
                 <td>{{ offer.description }}</td>
                 <td>{{ offer.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+                <td class="text-center" style="white-space: nowrap; width: 180px;">
+                  <button class="btn btn-warning btn-sm me-2" (click)="updateOffer(offer)">Update</button>
+                  <button class="btn btn-danger btn-sm" (click)="deleteOffer(offer)">Delete</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -58,4 +68,5 @@
       </div>
     </div>
   </div>
+
 </div>

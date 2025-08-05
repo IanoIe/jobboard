@@ -35,5 +35,13 @@ export class RecruiterComponent implements OnInit {
       }
     });
   }
+
+  updateOffer(offer: any): void {
+    console.log('Update clicke for:', offer);
+  }
+
+  deleteOffer(offer: any): void {
+    console.log('Delete clicked for:', offer);
+  }
 }
 
