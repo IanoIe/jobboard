@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { JobOffer, JobOfferService, NewJobOffer } from '../service/job-offer.service';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-recruiter',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './recruiter.component.html',
   styleUrls: ['./recruiter.component.css']
 })
@@ -15,6 +16,7 @@ export class RecruiterComponent implements OnInit {
   errorMessage: string | null = null;
   successMessage: string | null = null;
   user: any;
+  showForm = false;
 
   newOffer: NewJobOffer = {
     nomEnterprise: '',
