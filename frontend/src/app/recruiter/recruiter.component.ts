@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JobOffer, JobOfferService, NewJobOffer } from '../service/job-offer.service';
 import { CommonModule } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -17,6 +16,7 @@ export class RecruiterComponent implements OnInit {
   successMessage: string | null = null;
   user: any;
   showForm = false;
+  editingOffer: JobOffer | null = null;
 
   newOffer: NewJobOffer = {
     nomEnterprise: '',
@@ -55,11 +55,20 @@ export class RecruiterComponent implements OnInit {
       createdAt: new Date().toISOString(),
     };
 
-    this.jobOfferService.createJobOffer(offerToCreate).subscribe({
+    this.jobOfferService.addJobOffer(offerToCreate).subscribe({
       next: (response: JobOffer) => {
         console.log('New offer created successfully:', response);
         this.jobOffers.push(response);
         this.successMessage = 'Job offer created successfully!';
+
+        this.showForm = false;
+        this.newOffer = {
+          nomEnterprise: '',
+          title: '',
+          typeContract: '',
+          description: '',
+          createdAt: '',
+        };
       },
       error: (err) => {
         console.error('Error creating offer:', err);
@@ -68,49 +77,56 @@ export class RecruiterComponent implements OnInit {
     });
   }
 
-  updateOffer(offer: JobOffer): void {
-    if (offer.id) {
-      const updatedOffer = {
-        ...offer,
-        title: 'Updated Title',
-      };
+  startEditing(offer: JobOffer): void {
+    this.editingOffer = {...offer };
+  }
+  cancelEditing(): void {
+    this.editingOffer = null;
+  }
 
-      this.jobOfferService.updateJobOffer(offer.id, updatedOffer).subscribe({
-        next: (response: JobOffer) => {
-          console.log('Offer updated successfully:', response);
-          const index = this.jobOffers.findIndex(o => o.id === offer.id);
-          if (index !== -1) {
-            this.jobOffers[index] = response;
-          }
-          this.successMessage = 'Job offer updated successfully!';
-        },
-        error: (err) => {
-          console.error('Error updating offer:', err);
-          this.errorMessage = 'Failed to update job offer. Please try again later.';
+  submitUpdate(): void {
+    if (!this.editingOffer || !this.editingOffer.id) return;
+
+    const { id, ...dataToUpdate } = this.editingOffer;
+
+    this.jobOfferService.updateJobOffer(id, dataToUpdate).subscribe({
+      next: (updatedOffer) => {
+        const index = this.jobOffers.findIndex(o => o.id === id);
+        if (index !== -1) {
+          this.jobOffers[index] = updatedOffer;
         }
-      });
-    } else {
-      console.error('Attempted to update an offer without an ID.');
-      this.errorMessage = 'Cannot update offer without an ID.';
-    }
+        this.successMessage = 'Offer updated successfully!';
+        this.editingOffer = null;
+      },
+      error: (err) => {
+        console.error('Error updating offer:', err);
+        this.errorMessage = 'Error updating offer.';
+      }
+    });
   }
 
   deleteOffer(offer: JobOffer): void {
-    if (offer.id) {
-      this.jobOfferService.deleteJobOffer(offer.id).subscribe({
-        next: () => {
-          console.log('Offer deleted successfully');
-          this.jobOffers = this.jobOffers.filter(o => o.id !== offer.id);
-          this.successMessage = 'Job offer deleted successfully!';
-        },
-        error: (err: HttpErrorResponse) => {
-          console.error('Error deleting offer:', err);
-          this.errorMessage = 'Failed to delete job offer. Please try again later.';
-        }
-      });
-    } else {
-      console.error('Attempted to delete an offer without an ID.');
-      this.errorMessage = 'Cannot delete offer without an ID.';
+    const confirmDelete = confirm(`Are you sure you want to delete the job offer "${offer.title}"?`);
+
+    if (!confirmDelete) {
+      return;
     }
+    if (!offer.id) {
+      this.errorMessage = 'Offer ID is missing.';
+      return;
+    }
+
+    this.jobOfferService.deleteJobOffer(offer.id).subscribe({
+      next: () => {
+        this.jobOffers = this.jobOffers.filter(o => o.id !== offer.id);
+        this.successMessage = 'Job offer deleted successfully!';
+        this.cancelEditing();
+      },
+      error: err => {
+        console.error('Error deleting offer:', err);
+        this.errorMessage = 'Failed to delete job offer.';
+      }
+    });
   }
+
 }
