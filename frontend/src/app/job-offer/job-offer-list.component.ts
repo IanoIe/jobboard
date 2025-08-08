@@ -49,7 +49,7 @@ export class JobOfferListComponent implements OnInit {
   }
 
   fetchData(): void {
-    this.httpClient.get<JobOffer[]>('https://127.0.0.1:8000/api/job_offers').subscribe(
+    this.httpClient.get<JobOffer[]>('https://api.jobboard.wip/api/job_offers').subscribe(
       (response) => {
         this.jobOffers = response.map(job => {
           job.createdAt = this.datePipe.transform(job.createdAt, 'dd/MM/yyyy')!;
@@ -92,7 +92,7 @@ export class JobOfferListComponent implements OnInit {
       formData.append('cv', this.application.cv);
       formData.append('jobId', this.selectedJob.id.toString());
 
-      this.httpClient.post('https://127.0.0.1:8000/api/applications/upload', formData).subscribe({
+      this.httpClient.post('https://api.jobboard.wip/api/applications/upload', formData).subscribe({
         next: (response) => {
           console.log('Application submitted successfully!', response);
           alert('Application sent!');

@@ -21,7 +21,7 @@ export class ApplicationJobListComponent implements OnInit {
   }
 
   fetchData(): void {
-    this.httpClient.get('https://127.0.0.1:8000/api/application_jobs').subscribe(
+    this.httpClient.get('https://api.jobboard.wip/api/application_jobs').subscribe(
       (data: any) => {
         this.applicationJobs = data;
         this.loading = false;
