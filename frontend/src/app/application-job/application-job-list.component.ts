@@ -8,9 +8,9 @@ import { HttpClientModule } from '@angular/common/http';
   selector: 'app-application-job-list',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
-  templateUrl: './application-job-list.component.html',
-  styleUrls: ['./application-job-list.component.css']
+  templateUrl: './application-job-list.component.html'
 })
+
 export class ApplicationJobListComponent implements OnInit {
   httpClient = inject(HttpClient);
   applicationJobs: any[] = [];

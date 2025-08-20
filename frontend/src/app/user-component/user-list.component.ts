@@ -16,9 +16,9 @@ interface User {
   selector: 'app-user-list',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  templateUrl: './user-list.component.html'
 })
+
 export class UserListComponent implements OnInit {
   httpClient = inject(HttpClient);
   users: User[] = [];

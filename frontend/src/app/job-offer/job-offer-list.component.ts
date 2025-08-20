@@ -17,7 +17,6 @@ interface JobOffer {
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './job-offer-list.component.html',
-  styleUrls: ['./job-offer-list.component.css'],
   providers: [DatePipe]
 })
 export class JobOfferListComponent implements OnInit {
@@ -32,12 +31,21 @@ export class JobOfferListComponent implements OnInit {
     cv: null as File | null
   };
 
-  messages = [
+    messages = [
     'You can apply for the latest job offers on our website!',
     'Check out new job offers every day!',
     'Apply now and get your dream job!',
     "Don't miss our latest job offers!"
   ];
+
+  colors = [
+  'text-danger',
+  'text-success',
+  'text-primary',
+  'text-warning'   
+  ];
+
+
   currentMessageIndex = 0;
 
   ngOnInit(): void {

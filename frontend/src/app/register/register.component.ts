@@ -11,8 +11,7 @@ import { of } from 'rxjs';
   selector: 'app-register',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  templateUrl: './register.component.html'
 })
 
 export class RegisterComponent {

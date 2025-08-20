@@ -7,8 +7,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-recruiter',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './recruiter.component.html',
-  styleUrls: ['./recruiter.component.css']
+  templateUrl: './recruiter.component.html'
 })
 export class RecruiterComponent implements OnInit {
   jobOffers: JobOffer[] = [];

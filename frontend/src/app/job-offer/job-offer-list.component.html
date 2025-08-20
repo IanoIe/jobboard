@@ -1,66 +1,76 @@
-<div class="main-content">
-  <h1 class="text-center text-4xl text-blue-700">{{ messages[currentMessageIndex] }}</h1>
-
-  <div class="flex justify-center items-start min-h-screen mt-5 relative">
-    <div *ngIf="!loading && jobOffers.length > 0" class="w-1/2 mx-auto">
-      <table class="table table-bordered" style="width: 80%; margin: 0 auto 40px auto; table-layout: fixed;">
-        <thead class="table-light">
-          <tr>
-            <th class="text-center" style="width: 15%;">Title</th>
-            <th class="text-center" style="width: 10%;">Enterprise</th>
-            <th class="text-center" style="width: 10%;">Type of Contract</th>
-            <th class="text-center" style="width: 50%;">Description</th>
-            <th class="text-center" style="width: 10%;">Date</th>
-            <th class="text-center" style="width: 10%;">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let job of jobOffers">
-            <td class="border text-center">{{ job.title }}</td>
-            <td class="border text-center">{{ job.nomEnterprise }}</td>
-            <td class="border text-center">{{ job.typeContract }}</td>
-            <td class="border description-cell">{{ job.description }}</td>
-            <td class="border text-center">{{ job.createdAt }}</td>
-            <td class="border text-center">
-              <button type="button" (click)="openApplicationForm(job)" class="btn btn-success bg-teal-500 text-white py-2 px-4 rounded hover:bg-blue-500 transition duration-200"> Apply </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="main-content bg-primary-subtle min-vh-100 d-flex flex-column">
+  <h1 class="text-center display-4" [ngClass]="colors[currentMessageIndex]" style="transition: color 0.5s ease-in-out;">
+    {{ messages[currentMessageIndex] }}
+  </h1>
+  <div class="flex-grow-1 d-flex justify-center items-start mt-5 relative">
+    @if (!loading && jobOffers.length > 0) {
+      <div class="w-1/2 mx-auto">
+        <table class="table table-bordered" style="width: 80%; margin: 0 auto 40px auto; table-layout: fixed;">
+          <thead class="table-light">
+            <tr>
+              <th class="text-center" style="width: 15%;">Title</th>
+              <th class="text-center" style="width: 10%;">Enterprise</th>
+              <th class="text-center" style="width: 10%;">Type of Contract</th>
+              <th class="text-center" style="width: 50%;">Description</th>
+              <th class="text-center" style="width: 10%;">Date</th>
+              <th class="text-center" style="width: 10%;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (job of jobOffers; track job.id) {
+              <tr>
+                <td class="border text-center">{{ job.title }}</td>
+                <td class="border text-center">{{ job.nomEnterprise }}</td>
+                <td class="border text-center">{{ job.typeContract }}</td>
+                <td class="border description-cell">{{ job.description }}</td>
+                <td class="border text-center">{{ job.createdAt }}</td>
+                <td class="border text-center">
+                  <button type="button" (click)="openApplicationForm(job)"
+                    class="btn btn-success bg-teal-500 text-white py-2 px-4 rounded hover:bg-blue-500 transition duration-200">
+                    Apply
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+    @if (!loading && jobOffers.length === 0) {
+      <div class="text-center">No job offers found.</div>
+    }
   </div>
 
-  <div *ngIf="!loading && jobOffers.length === 0" class="text-center">No job offers found.</div>
-
   <!-- Bootstrap Modal -->
-  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" *ngIf="selectedJob">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Apply for {{ selectedJob.title }}</h5>
-          <button type="button" class="btn-close" (click)="closeApplicationForm()" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form (submit)="submitApplication()">
-            <div class="mb-3">
-              <label for="fullName" class="form-label">Full Name</label>
-              <input id="fullName" [(ngModel)]="application.fullName" name="fullName" type="text" class="form-control" required />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input id="email" [(ngModel)]="application.email" name="email" type="email" class="form-control" required />
-            </div>
-            <div class="mb-3">
-              <label for="cv" class="form-label">Upload CV</label>
-              <input id="cv" name="cv" type="file" (change)="onFileSelected($event)" class="form-control" required />
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="closeApplicationForm()">Cancel</button>
-              <button type="submit" class="btn btn-primary">Submit Application</button>
-            </div>
-          </form>
+  @if (selectedJob) {
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Apply for {{ selectedJob.title }}</h5>
+            <button type="button" class="btn-close" (click)="closeApplicationForm()" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form (submit)="submitApplication()">
+              <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input id="fullName" [(ngModel)]="application.fullName" name="fullName" type="text" class="form-control" required/>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" [(ngModel)]="application.email" name="email" type="email" class="form-control" required/>
+              </div>
+              <div class="mb-3"> <label for="cv" class="form-label">Upload CV</label>
+                <input id="cv" name="cv" type="file" (change)="onFileSelected($event)" class="form-control" required />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeApplicationForm()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit Application</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  }
 </div>

@@ -13,18 +13,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users">
-        <td class="w-16">{{ user.id }}</td>
-        <td class="w-16">{{ user.firstname }} {{ user.lastname }}</td>
-        <td class="w-16">{{ user.email }}</td>
-        <td class="w-16">{{ user.roles.join(', ') }}</td>
-      </tr>
+      @for (user of users; track user.id) {
+        <tr>
+          <td class="w-16">{{ user.id }}</td>
+          <td class="w-16">{{ user.firstname }} {{ user.lastname }}</td>
+          <td class="w-16">{{ user.email }}</td>
+          <td class="w-16">{{ user.roles.join(', ') }}</td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>
-
-
-
 
 <div class="w-full h-[50px] bg-green-500 flex items-center justify-center">
   <h1 class="text-[30px] text-white font-bold">&copy; 2025 AC Marvel - Tous droits réservés</h1>
