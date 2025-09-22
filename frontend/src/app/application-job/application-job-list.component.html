@@ -3,12 +3,12 @@
 </div>
 
 <div class="application-job-list">
-  <ul *for="let job of applicationJobs">
+  @for (job of applicationJobs; track job.id) {
     <li class="job-item">
       <p><strong>ID:</strong> {{ job.id }}</p>
-      <p><strong>Estado:</strong> {{ job.state }}</p>
+      <p><strong>State:</strong> {{ job.state }}</p>
     </li>
-  </ul>
+  }
 </div>
 
 <main class="w-full h-140 min-w-full md:min-w-0 bg-green-400 rounded-lg text-white m-0 p-0"></main>
