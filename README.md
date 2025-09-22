@@ -25,7 +25,7 @@ This project is a full-stack job board application built with **Symfony** for th
 
 1. Clone the repository:
    ```bash
-   git clone https://your-repository-url.git
+   git clone git@github.com:IanoIe/jobboard.git
    cd your-project-backend
 Install PHP dependencies:
 
