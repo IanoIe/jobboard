@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 
@@ -15,7 +15,7 @@ interface User {
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [FormsModule, HttpClientModule],
   templateUrl: './user-list.component.html'
 })
 

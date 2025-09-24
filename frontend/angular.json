@@ -64,7 +64,7 @@
           "builder": "@angular/build:dev-server",
           "options": {
             "allowedHosts": ["jobboard.wip"],
-            "host": "0.0.0.0"
+            "host": "jobboard.wip"
           },
           "configurations": {
             "production": {

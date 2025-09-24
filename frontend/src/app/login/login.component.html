@@ -1,24 +1,27 @@
-<div class="d-flex flex-column vh-100 justify-content-center align-items-center bg-primary-subtle">
-  <div class="container rounded p-4 w-50 bg-success overflow-auto">
+<div class="d-flex flex-column justify-content-center align-items-center bg-primary-subtle" style="min-height: 77vh;">
+  <div class="container rounded p-4 w-25 bg-success overflow-auto">
     <h2 class="text-center mb-4 text-white">Login</h2>
     <form (ngSubmit)="handleLoginSubmit()" #loginForm="ngForm" novalidate>
       <div class="mb-3">
         <label for="email" class="form-label text-white">Email</label>
         <input type="email" id="email" name="email" class="form-control" [(ngModel)]="email" placeholder="Your email" required #emailInput="ngModel" />
-        <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger">Email is required.</div>
+        @if (emailInput.invalid && emailInput.touched) {
+          <div class="text-danger">Email is required.</div>
+        }
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label text-white">Password</label>
         <input type="password" id="password" name="password" class="form-control" [(ngModel)]="password" placeholder="Enter password" required #passwordInput="ngModel" />
-        <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">Password is required.</div>
+        @if (passwordInput.invalid && passwordInput.touched) {
+          <div class="text-danger">Password is required.</div>
+        }
       </div>
-
       <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Login</button>
     </form>
-
-    <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
-
+    @if (error) {
+      <div class="alert alert-danger mt-3">{{ error }}</div>
+    }
     <div class="text-center mt-3 text-white">
       <p>Don't have an account?</p>
       <button class="btn btn-outline-success text-white" (click)="goToRegister()">Sign up</button>
