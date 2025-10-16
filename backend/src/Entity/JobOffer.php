@@ -14,7 +14,10 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
+use App\Controller\JobOfferController;
 use Symfony\Component\Serializer\Annotation\Groups;
+
+use App\State\JobOfferCollectionProvider;
 
 #[ORM\Entity(repositoryClass: JobOfferRepository::class)]
 #[ApiResource(
@@ -23,7 +26,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(
             security: "is_granted('ROLE_ADMIN') or object.getUser() == user"
         ),
-        new GetCollection(),
+        new GetCollection(/*
+            provider: JobOfferCollectionProvider::class,
+            security: "true" // <-- significa: qualquer um pode acessar
+        */),
+
         new Post(
             security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_RECRUITER')"
         ),
@@ -69,7 +76,7 @@ class JobOffer
     /**
      * @var Collection<int, ApplicationJob>
      */
-    #[ORM\OneToMany(targetEntity: ApplicationJob::class, mappedBy: 'JobOffer')]
+    #[ORM\OneToMany(targetEntity: ApplicationJob::class, mappedBy: 'jobOffer')]
     private Collection $applicationJobs;
 
     public function __construct()
@@ -175,7 +182,6 @@ class JobOffer
     public function removeApplicationJob(ApplicationJob $applicationJob): static
     {
         if ($this->applicationJobs->removeElement($applicationJob)) {
-            // set the owning side to null (unless already changed)
             if ($applicationJob->getJobOffer() === $this) {
                 $applicationJob->setJobOffer(null);
             }
@@ -188,5 +194,4 @@ class JobOffer
     {
         return $this->title . ', ' . $this->nomEnterprise;
     }
-
 }

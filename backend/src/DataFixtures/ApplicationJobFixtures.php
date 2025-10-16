@@ -22,6 +22,7 @@ class ApplicationJobFixtures extends Fixture implements DependentFixtureInterfac
             $applicationJob->setJobOffer($jobOffer);
             $applicationJob->setState('Accept');
             $applicationJob->setEmail('jean@gmail.com');
+            $applicationJob->setFullName($user->getFullName() ?? 'Jean'); // <-- Adicionado aqui
             $cvPath = 'C:\Users\AC Marvel\Downloads\Fille_CV.pdf';
             if (file_exists($cvPath)) {
                 $cvContent = file_get_contents($cvPath);
@@ -46,6 +47,7 @@ class ApplicationJobFixtures extends Fixture implements DependentFixtureInterfac
             $applicationJob->setJobOffer($jobOffer);
             $applicationJob->setState('Refus');
             $applicationJob->setEmail('marlon@hotmail.com');
+            $applicationJob->setFullName($user->getFullName() ?? 'Marlon'); // <-- Adicionado aqui
             $cvPath = 'C:\Users\AC Marvel\Downloads\Fille_CV.pdf';
             if (file_exists($cvPath)) {
                 $cvContent = file_get_contents($cvPath);

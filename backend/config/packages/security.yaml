@@ -45,8 +45,8 @@ security:
         # - { path: ^/api/job_offers$, roles: PUBLIC_ACCESS }
         # - { path: ^/api/applications, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        #- { path: ^/admin, roles: ROLE_RECRUITER }
+        #- { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: [ROLE_RECRUITER, ROLE_ADMIN] }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

@@ -1,6 +1,6 @@
 <div class="container-fluid p-4" style="background-color: #d0e5ff;">
   <div class="d-flex flex-column justify-content-center align-items-center bg-primary-subtle" style="min-height: 80vh;">
-    <div class="container w-25 bg-success overflow-auto rounded p-2">
+    <div class="container rounded p-4 bg-success overflow-auto" style="max-width: 400px; width: 100%;">
       <h2 class="text-center mb-5" style="padding: 10px; border-radius: 5px; color: white;">
         Recruiter Register
       </h2>
@@ -29,11 +29,10 @@
           <input type="password" class="form-control bg-success-subtle" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" [(ngModel)]="confirmPassword" required />
         </div>
         <div class="text-center mt-3">
-          <button type="submit" class="btn btn-outline-primary rounded-pill px-5 py-3">
+          <button type="submit" class="btn btn-primary rounded-pill px-5 py-3">
             Register
           </button>
         </div>
-
         @if (error) {
           <div class="text-danger mb-3">{{ error }} </div>
         }

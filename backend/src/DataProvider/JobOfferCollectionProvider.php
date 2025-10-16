@@ -18,10 +18,6 @@ class JobOfferCollectionProvider implements ProviderInterface
     {
         $user = $this->security->getUser();
 
-        if (!$user) {
-            return [];
-        }
-
         if ($this->security->isGranted('ROLE_ADMIN')) {
             return $this->jobOfferRepository->findAll();
         }
@@ -30,6 +26,7 @@ class JobOfferCollectionProvider implements ProviderInterface
             return $this->jobOfferRepository->findBy(['user' => $user]);
         }
 
-        return []; 
+        // Permitir ver todas as ofertas publicamente
+        return $this->jobOfferRepository->findAll();
     }
 }

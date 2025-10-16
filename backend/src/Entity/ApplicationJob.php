@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ApplicationJobRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read_applicationJob']],
+    denormalizationContext: ['groups' => ['write_applicationJob']],
     operations: [
         new Get(),
         new GetCollection(),
@@ -29,7 +30,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
     ]
 )]
-
 class ApplicationJob
 {
     #[ORM\Id]
@@ -41,6 +41,10 @@ class ApplicationJob
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read_applicationJob', 'write_applicationJob'])]
+    private ?string $fullName = null;
+
     #[ORM\Column(length: 255)]
     #[Groups(['read_applicationJob'])]
     private ?string $state = null;
@@ -49,12 +53,14 @@ class ApplicationJob
     private $cvData = null;
 
     #[ORM\Column]
+    #[Groups(['read_applicationJob'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'applicationJobs')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'applicationJobs')]
+    #[Groups(['read_applicationJob'])]
     private ?JobOffer $jobOffer = null;
 
     public function getId(): ?int
@@ -70,6 +76,17 @@ class ApplicationJob
     public function setEmail(string $email): static
     {
         $this->email = $email;
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(?string $fullName): static
+    {
+        $this->fullName = $fullName;
         return $this;
     }
 
@@ -136,4 +153,3 @@ class ApplicationJob
         return $this;
     }
 }
-
